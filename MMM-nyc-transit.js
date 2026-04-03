@@ -154,11 +154,11 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               '">' +
               dKey.toLowerCase().split("")[0] +
               "</span></span>" +
-              trainHashMap.downTown[dKey].dest +
+              first[dKey].dest +
               '<span class="mta mta_train mta__train--time mta__train-time__' +
               dKey.toLowerCase() +
               '"> ' +
-              trainHashMap.downTown[dKey].time
+              first[dKey].time
                   .filter((value, index, self) => {
                     return self.indexOf(value) === index;
                   })
@@ -166,7 +166,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
                   .map(
                       (trainTime, i) =>
                           "<span data-walking-time='" +
-                          trainHashMap.downTown[dKey].walkingTime +
+                          first[dKey].walkingTime +
                           "' class='train-time__downTown-" +
                           dKey.toLowerCase() +
                           "--" +
@@ -197,11 +197,11 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               '"><span class="' + this.isExpress(uKey) + '">' +
               uKey.toLowerCase().split("")[0] +
               "</span></span>" +
-              trainHashMap.upTown[uKey].dest +
+              second[uKey].dest +
               '<span class="mta mta_train mta__train--time mta_train-time__' +
               uKey.toLowerCase() +
               '"> ' +
-              trainHashMap.upTown[uKey].time
+              second[uKey].time
                   .filter((value, index, self) => {
                     return self.indexOf(value) === index;
                   })
