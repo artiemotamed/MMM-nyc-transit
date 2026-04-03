@@ -137,8 +137,8 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           }
         })
 
-        var first = isUptownFirst? trainHashMap.upTown : trainHashMap.downTown
-        var second = isUptownFirst? trainHashMap.downTown : trainHashMap.upTown 
+        var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
+        var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown 
 
         for (var dKey in first) {
           var dHtml = ''
