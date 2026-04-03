@@ -23,7 +23,6 @@
     position: "top_bar",
     header: "Next Train",
     config: {
-      apiKey: 'YOUR_KEY_HERE',
       displayType: 'list',
       mtaType: 'train',
       stations: [
@@ -61,7 +60,6 @@
     * <span style="font-size: 12px; color: #999; font-weight: bold">_note: works best on side_</span>
   * `marquee` - shows next 6 trains, 3 for uptown and 3 for downtown
     * <span style="font-size: 12px; color: #999; font-weight: bold">_note: works best on top_</span>
-* `apiKey` see [mta api Key](#🔑-mta-api-Key) on where to obtain yours.
 * `mtaType` _coming soon, choose bus and or train_
 * `stations` array to store each station config.
   * `stationId` find your [station(s)](#-station-list) id(s).
@@ -70,11 +68,8 @@
     * `upTown` boolean value
     * `downTown` boolean value
 * `updateInterval` default is set to 5 minutes
-  * __low interval will result in your MTA api key timing out__
+  * __low interval will result in a timing out__
 
-## 🔑 MTA API Key
-
-You will need to sign up for the MTA Real-Time Data Feeds API. To get a key, please visit their website: [api.mta.info](https://api.mta.info/).
 
 ## 🚆 Station List
 

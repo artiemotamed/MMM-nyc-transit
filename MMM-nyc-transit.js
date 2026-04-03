@@ -89,6 +89,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
     var marquee = document.createElement('marquee')
     var list = document.createElement('ul')
     var isList = this.config.displayType !== 'marquee'
+    var isUptownFirst = true
 
     wrapper.className = 'MMM-nyc-transit'
     list.className = 'mta__train--list'
@@ -122,7 +123,24 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           }
         })
 
-        for (var dKey in trainHashMap.downTown) {
+        upTown.forEach((train) => {
+          if (!trainHashMap.upTown[this.isSIR(train.routeId)]) {
+            trainHashMap.upTown[this.isSIR(train.routeId)] = {
+              time: [train.time],
+              dest: train.destination,
+              walkingTime: train.walkingTime,
+            }
+          } else {
+            trainHashMap.upTown[
+              this.isSIR(train.routeId)
+            ].time.push(train.time)
+          }
+        })
+
+        var first = isUptownFirst? trainHashMap.upTown : trainHashMap.downTown
+        var second = isUptownFirst? trainHashMap.downTown : trainHashMap.upTown 
+
+        for (var dKey in first) {
           var dHtml = ''
           var downTownListItem = document.createElement('li')
           dHtml =
@@ -141,6 +159,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               dKey.toLowerCase() +
               '"> ' +
               trainHashMap.downTown[dKey].time
+                  .filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                  })
                   .slice(0, 3)
                   .map(
                       (trainTime, i) =>
@@ -161,21 +182,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           list.appendChild(downTownListItem)
         }
 
-        upTown.forEach((train) => {
-          if (!trainHashMap.upTown[this.isSIR(train.routeId)]) {
-            trainHashMap.upTown[this.isSIR(train.routeId)] = {
-              time: [train.time],
-              dest: train.destination,
-              walkingTime: train.walkingTime,
-            }
-          } else {
-            trainHashMap.upTown[
-              this.isSIR(train.routeId)
-            ].time.push(train.time)
-          }
-        })
+        
 
-        for (var uKey in trainHashMap.upTown) {
+        for (var uKey in second) {
           var uHtml = ''
           var upTownListItem = document.createElement('li')
 
@@ -193,6 +202,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               uKey.toLowerCase() +
               '"> ' +
               trainHashMap.upTown[uKey].time
+                  .filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                  })
                   .slice(0, 3)
                   .map(
                       (trainTime, i) =>

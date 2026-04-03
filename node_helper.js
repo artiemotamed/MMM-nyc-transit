@@ -15,8 +15,7 @@ module.exports = NodeHelper.create({
   },
 
   getDepartures: function (config) {
-    var apiKey = config.apiKey
-    var client = createClient(apiKey)
+    var client = createClient()
     var self = this
     var stations = config.stations.map((obj) => obj.stationId)
     var stationIds = {}
