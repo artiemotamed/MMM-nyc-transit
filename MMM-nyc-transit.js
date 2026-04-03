@@ -31,7 +31,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         walkingTime: 5,
       },
     ],
-    updateInterval: 300000, // every 5 min
+    updateInterval: 30000, // every 30 seconds
   },
 
   getStyles: function () {
