@@ -137,94 +137,97 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           }
         })
 
-        var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
-        var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown 
+        //var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
+        //var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown 
+        var items = isUptownFirst ? [trainHashMap.upTown, trainHashMap.downTown] : [trainHashMap.downTown, trainHashMap.upTown]
 
-        for (var dKey in first) {
-          var dHtml = ''
-          var downTownListItem = document.createElement('li')
-          dHtml =
+        items.forEach((item) => {
+          for (var key in item) {
+            var dHtml = ''
+            var listItem = document.createElement('li')
+            dHtml =
               dHtml +
               '<span class="mta mta__train mta__train--logo mta__train--line-' +
-              dKey.toLowerCase().split("")[0] +
+              key.toLowerCase().split("")[0] +
               " mta__train--line-" +
-              this.isExpress(dKey) +
+              this.isExpress(key) +
               '"><span class="' +
-              this.isExpress(dKey) +
+              this.isExpress(key) +
               '">' +
-              dKey.toLowerCase().split("")[0] +
+              key.toLowerCase().split("")[0] +
               "</span></span>" +
-              first[dKey].dest +
+              first[key].dest +
               '<span class="mta mta_train mta__train--time mta__train-time__' +
-              dKey.toLowerCase() +
+              key.toLowerCase() +
               '"> ' +
-              first[dKey].time
-                  .filter((value, index, self) => {
-                    return self.indexOf(value) === index;
-                  })
-                  .slice(0, 3)
-                  .map(
-                      (trainTime, i) =>
-                          "<span data-walking-time='" +
-                          first[dKey].walkingTime +
-                          "' class='train-time__downTown-" +
-                          dKey.toLowerCase() +
-                          "--" +
-                          i +
-                          "'> " +
-                          trainTime +
-                          "min</span>"
-                  ) +
+              first[key].time
+                .filter((value, index, self) => {
+                  return self.indexOf(value) === index;
+                })
+                .slice(0, 3)
+                .map(
+                  (trainTime, i) =>
+                    "<span data-walking-time='" +
+                    first[key].walkingTime +
+                    "' class='train-time__downTown-" +
+                    key.toLowerCase() +
+                    "--" +
+                    i +
+                    "'> " +
+                    trainTime +
+                    "min</span>"
+                ) +
               " </span>"; /*eslint-disable-line*/
-          downTownListItem.className = 'mta__train--item mta__train--item-' + this.isExpress(dKey)
-          downTownListItem.innerHTML = dHtml
+            listItem.className = 'mta__train--item mta__train--item-' + this.isExpress(key)
+            listItem.innerHTML = dHtml
 
-          list.appendChild(downTownListItem)
-        }
+            list.appendChild(listItem)
+          }
+        });
 
-        
 
-        for (var uKey in second) {
-          var uHtml = ''
-          var upTownListItem = document.createElement('li')
 
-          uHtml =
-              uHtml +
-              '<span class="mta mta__train mta__train--logo mta__train--line-' +
-              uKey.toLowerCase().split("")[0] +
-              " mta__train--line-" +
-              this.isExpress(uKey) +
-              '"><span class="' + this.isExpress(uKey) + '">' +
-              uKey.toLowerCase().split("")[0] +
-              "</span></span>" +
-              second[uKey].dest +
-              '<span class="mta mta_train mta__train--time mta_train-time__' +
-              uKey.toLowerCase() +
-              '"> ' +
-              second[uKey].time
-                  .filter((value, index, self) => {
-                    return self.indexOf(value) === index;
-                  })
-                  .slice(0, 3)
-                  .map(
-                      (trainTime, i) =>
-                          "<span data-walking-time='" +
-                          trainHashMap.upTown[uKey].walkingTime +
-                          "' class='train-time__upTown-" +
-                          uKey.toLowerCase() +
-                          "--" +
-                          i +
-                          "'> " +
-                          trainTime +
-                          "min</span>"
-                  ) +
-              " </span>"; /*eslint-disable-line*/
+        // for (var uKey in second) {
+        //   var uHtml = ''
+        //   var upTownListItem = document.createElement('li')
 
-          upTownListItem.className = 'mta__train--item  mta__train--item-' + this.isExpress(uKey);
-          upTownListItem.innerHTML = uHtml
+        //   uHtml =
+        //     uHtml +
+        //     '<span class="mta mta__train mta__train--logo mta__train--line-' +
+        //     uKey.toLowerCase().split("")[0] +
+        //     " mta__train--line-" +
+        //     this.isExpress(uKey) +
+        //     '"><span class="' + this.isExpress(uKey) + '">' +
+        //     uKey.toLowerCase().split("")[0] +
+        //     "</span></span>" +
+        //     second[uKey].dest +
+        //     '<span class="mta mta_train mta__train--time mta_train-time__' +
+        //     uKey.toLowerCase() +
+        //     '"> ' +
+        //     second[uKey].time
+        //       .filter((value, index, self) => {
+        //         return self.indexOf(value) === index;
+        //       })
+        //       .slice(0, 3)
+        //       .map(
+        //         (trainTime, i) =>
+        //           "<span data-walking-time='" +
+        //           trainHashMap.upTown[uKey].walkingTime +
+        //           "' class='train-time__upTown-" +
+        //           uKey.toLowerCase() +
+        //           "--" +
+        //           i +
+        //           "'> " +
+        //           trainTime +
+        //           "min</span>"
+        //       ) +
+        //     " </span>"; /*eslint-disable-line*/
 
-          list.appendChild(upTownListItem)
-        }
+        //   upTownListItem.className = 'mta__train--item  mta__train--item-' + this.isExpress(uKey);
+        //   upTownListItem.innerHTML = uHtml
+
+        //   list.appendChild(upTownListItem)
+        // }
 
         wrapper.appendChild(list)
 
@@ -284,32 +287,32 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           var downTownMarListItem = document.createElement('span')
 
           downMarHtml =
-              downMarHtml +
-              '<span class="mta mta__train mta__train--logo mta__train--line-' +
-              downTown[downMarKey].routeId.toLowerCase().split("")[0] +
-              " mta__train--line-" +
-              this.isExpress(downTown[downMarKey].routeId) +
-              '">' +
-              '<span class="' +
-              this.isExpress(downTown[downMarKey].routeId) +
-              '">' +
-              downTown[downMarKey].routeId.toLowerCase().split("")[0] +
-              "</span></span>" +
-              "</span><span class='mta mta_train mta__train--time mta_train-time__'" +
-              (parseFloat(downMarKey) + 4) +
-              '">' +
-              '<span class="mta mta_train mta__train--time mta__train-time__' +
-              downMarKey.toLowerCase() +
-              '"> ' +
-              "<span data-walking-time='" +
-              downTown[downMarKey].walkingTime +
-              "' class='train-time__downTown-" +
-              downTown[downMarKey].routeId.toLowerCase() +
-              "--" +
-              downMarKey.toLowerCase() +
-              "'> " +
-              downTown[downMarKey].time +
-              "min</span>";
+            downMarHtml +
+            '<span class="mta mta__train mta__train--logo mta__train--line-' +
+            downTown[downMarKey].routeId.toLowerCase().split("")[0] +
+            " mta__train--line-" +
+            this.isExpress(downTown[downMarKey].routeId) +
+            '">' +
+            '<span class="' +
+            this.isExpress(downTown[downMarKey].routeId) +
+            '">' +
+            downTown[downMarKey].routeId.toLowerCase().split("")[0] +
+            "</span></span>" +
+            "</span><span class='mta mta_train mta__train--time mta_train-time__'" +
+            (parseFloat(downMarKey) + 4) +
+            '">' +
+            '<span class="mta mta_train mta__train--time mta__train-time__' +
+            downMarKey.toLowerCase() +
+            '"> ' +
+            "<span data-walking-time='" +
+            downTown[downMarKey].walkingTime +
+            "' class='train-time__downTown-" +
+            downTown[downMarKey].routeId.toLowerCase() +
+            "--" +
+            downMarKey.toLowerCase() +
+            "'> " +
+            downTown[downMarKey].time +
+            "min</span>";
 
           (" </span>"); /*eslint-disable-line*/
 

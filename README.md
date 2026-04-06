@@ -1,12 +1,7 @@
 # MTA transit module for MagicMirror²
 
 ## 🛡 Badges
-<!-- Social info -->
-![follow on Twitte](https://img.shields.io/twitter/follow/elaniobro?style=social&logo=twitter)  ![GitHub followers](https://img.shields.io/github/followers/elaniobro?style=social)
-<!-- Application info -->
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/elaniobro/MMM-nyc-transit)    [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)  ![GitHub top language](https://img.shields.io/github/languages/top/elaniobro/MMM-nyc-transit)    ![GitHub](https://img.shields.io/github/license/elaniobro/MMM-nyc-transit) <!-- Github status -->
-![GitHub issues](https://img.shields.io/github/issues/elaniobro/MMM-nyc-transit)  ![GitHub issues](https://img.shields.io/github/issues-closed/elaniobro/MMM-nyc-transit)![GitHub pull requests](https://img.shields.io/github/issues-pr/elaniobro/MMM-nyc-transit)  ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/elaniobro/MMM-nyc-transit)
-
+This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.com/Elaniobro/MMM-nyc-transit) to work on the 13.3inch CM4 Magic Mirror
 <!-- ![](./mmm-nyc-transit.gif) -->
 
 ![](https://user-images.githubusercontent.com/710847/80649891-dab42300-8a40-11ea-96ac-f76926f1b109.png)
