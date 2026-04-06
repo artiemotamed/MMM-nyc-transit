@@ -148,9 +148,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
             var listItem = document.createElement('li')
             var html =
               `<span class="mta mta__train mta__train--logo 
-              mta__train--line-${dKey.toLowerCase().split("")[0]} ">` +
-              `${dKey.toLowerCase().split("")[0]}</span></span>${item[dKey].dest}` +
-              `<span class="mta mta_train mta__train--time"> ` +
+              mta__train--line-${dKey.toLowerCase().split("")[0]} ">
+              ${dKey.toLowerCase().split("")[0]}</span>${item[dKey].dest}
+              <span class="mta mta_train mta__train--time"> ` +
               item[dKey].time
                 .filter((value, index, self) => {
                   return self.indexOf(value) === index;
@@ -158,7 +158,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
                 .slice(0, 3)
                 .map(
                   (trainTime, i) =>
-                    `<span class='train-time__downTown-${dKey.toLowerCase()}--${i}'> 
+                    `<span class='train-time'> 
                     ${trainTime} min
                     </span>`
                 ) +
