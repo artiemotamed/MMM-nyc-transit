@@ -55,14 +55,13 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
     * <span style="font-size: 12px; color: #999; font-weight: bold">_note: works best on side_</span>
   * `marquee` - shows next 6 trains, 3 for uptown and 3 for downtown
     * <span style="font-size: 12px; color: #999; font-weight: bold">_note: works best on top_</span>
-* `mtaType` _coming soon, choose bus and or train_
 * `stations` array to store each station config.
   * `stationId` find your [station(s)](#-station-list) id(s).
   * `walkingTime` allows you to pad the realtime data time, with travel time to the station.
   * `dir` object to hold which directions of the train to show
     * `upTown` boolean value
     * `downTown` boolean value
-* `updateInterval` default is set to 5 minutes
+* `updateInterval` default is set to 30 seconds
   * __low interval will result in a timing out__
 
 
