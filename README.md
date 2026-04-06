@@ -38,7 +38,7 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
           }
         }
       ],
-      updateInterval: 300000
+      updateInterval: 30000
     }
   }
 ```
@@ -69,49 +69,14 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
 
 Find the corresponding `Name` and `id` in the [STATION_LIST.md](STATION_LIST.md) object to insert into the config array.
 
-## ✨ Contributing
 
-Pull requests and stars are always welcome. For bugs and feature requests, [please open an issue](https://github.com/elaniobro/mmm-nyc-transit/issues)
-
-## 👨🏻 Author
-
-**Elan Trybuch**
-
-* [github](https://www.github.com/elaniobro)
-* [twitter](https://www.twitter.com/elaniobro)
 
 ### ⚖️ License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
-### 🙏🏽 Acknowledgments
 
-* [Eric Lewis](https://github.com/ericandrewlewis/mta-realtime-subway-departures/blob/master/package.json)
 
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://elan.trybuch.com"><img src="https://avatars0.githubusercontent.com/u/710847?v=4?s=100" width="100px;" alt="Elan Trybuch"/><br /><sub><b>Elan Trybuch</b></sub></a><br /><a href="#design-elaniobro" title="Design">🎨</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/commits?author=elaniobro" title="Code">💻</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/pulls?q=is%3Apr+reviewed-by%3Aelaniobro" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/commits?author=elaniobro" title="Documentation">📖</a> <a href="#maintenance-elaniobro" title="Maintenance">🚧</a> <a href="#infra-elaniobro" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.ericandrewlewis.com"><img src="https://avatars2.githubusercontent.com/u/1087646?v=4?s=100" width="100px;" alt="Eric Lewis"/><br /><sub><b>Eric Lewis</b></sub></a><br /><a href="https://github.com/Elaniobro/MMM-nyc-transit/commits?author=ericandrewlewis" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Kendiggity973"><img src="https://avatars2.githubusercontent.com/u/54965526?v=4?s=100" width="100px;" alt="Kendiggity973"/><br /><sub><b>Kendiggity973</b></sub></a><br /><a href="#ideas-Kendiggity973" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/issues?q=author%3AKendiggity973" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dahlio"><img src="https://avatars0.githubusercontent.com/u/52632238?v=4?s=100" width="100px;" alt="dahlio"/><br /><sub><b>dahlio</b></sub></a><br /><a href="#ideas-dahlio" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/issues?q=author%3Adahlio" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jon7187"><img src="https://avatars1.githubusercontent.com/u/744623?v=4?s=100" width="100px;" alt="jon7187"/><br /><sub><b>jon7187</b></sub></a><br /><a href="https://github.com/Elaniobro/MMM-nyc-transit/issues?q=author%3Ajon7187" title="Bug reports">🐛</a> <a href="#ideas-jon7187" title="Ideas, Planning, & Feedback">🤔</a> <a href="#example-jon7187" title="Examples">💡</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nipper2000h"><img src="https://avatars3.githubusercontent.com/u/60026688?v=4?s=100" width="100px;" alt="nipper2000h"/><br /><sub><b>nipper2000h</b></sub></a><br /><a href="https://github.com/Elaniobro/MMM-nyc-transit/issues?q=author%3Anipper2000h" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://kurtraschke.com"><img src="https://avatars2.githubusercontent.com/u/118546?v=4?s=100" width="100px;" alt="Kurt Raschke"/><br /><sub><b>Kurt Raschke</b></sub></a><br /><a href="https://github.com/Elaniobro/MMM-nyc-transit/issues?q=author%3Akurtraschke" title="Bug reports">🐛</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/commits?author=kurtraschke" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://undecidable.net/joolean/"><img src="https://avatars.githubusercontent.com/u/799596?v=4?s=100" width="100px;" alt="Julian Graham"/><br /><sub><b>Julian Graham</b></sub></a><br /><a href="https://github.com/Elaniobro/MMM-nyc-transit/issues?q=author%3Ajoolean" title="Bug reports">🐛</a> <a href="https://github.com/Elaniobro/MMM-nyc-transit/commits?author=joolean" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/KristjanESPERANTO"><img src="https://avatars.githubusercontent.com/u/35647502?v=4?s=100" width="100px;" alt="Kristjan ESPERANTO"/><br /><sub><b>Kristjan ESPERANTO</b></sub></a><br /><a href="#maintenance-KristjanESPERANTO" title="Maintenance">🚧</a></td>
-    </tr>
-  </tbody>
-</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
