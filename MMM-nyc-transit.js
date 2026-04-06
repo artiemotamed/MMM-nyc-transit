@@ -140,7 +140,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
         var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown
 
-        var items = [first, second];
+        var items = [first];
         items.forEach((item) => {
           for (var dKey in item) {
             var dHtml = ''
@@ -185,7 +185,49 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           }
         })
 
-      
+
+
+        for (var uKey in second) {
+          var uHtml = ''
+          var upTownListItem = document.createElement('li')
+
+          uHtml =
+            uHtml +
+            '<span class="mta mta__train mta__train--logo mta__train--line-' +
+            uKey.toLowerCase().split("")[0] +
+            " mta__train--line-" +
+            this.isExpress(uKey) +
+            '"><span class="' + this.isExpress(uKey) + '">' +
+            uKey.toLowerCase().split("")[0] +
+            "</span></span>" +
+            trainHashMap.upTown[uKey].dest +
+            '<span class="mta mta_train mta__train--time mta_train-time__' +
+            uKey.toLowerCase() +
+            '"> ' +
+            trainHashMap.upTown[uKey].time
+              .filter((value, index, self) => {
+                return self.indexOf(value) === index;
+              })
+              .slice(0, 3)
+              .map(
+                (trainTime, i) =>
+                  "<span data-walking-time='" +
+                  trainHashMap.upTown[uKey].walkingTime +
+                  "' class='train-time__upTown-" +
+                  uKey.toLowerCase() +
+                  "--" +
+                  i +
+                  "'> " +
+                  trainTime +
+                  "min</span>"
+              ) +
+            " </span>"; /*eslint-disable-line*/
+
+          upTownListItem.className = 'mta__train--item  mta__train--item-' + this.isExpress(uKey);
+          upTownListItem.innerHTML = uHtml
+
+          list.appendChild(upTownListItem)
+        }
 
         wrapper.appendChild(list)
 
