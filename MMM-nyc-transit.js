@@ -137,30 +137,30 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           }
         })
 
-        //var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
-        //var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown 
-        var items = isUptownFirst ? [trainHashMap.upTown, trainHashMap.downTown] : [trainHashMap.downTown, trainHashMap.upTown]
+        var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
+        var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown
 
+        var items = [first];
         items.forEach((item) => {
-          for (var key in item) {
+          for (var dKey in item) {
             var dHtml = ''
-            var listItem = document.createElement('li')
+            var downTownListItem = document.createElement('li')
             dHtml =
               dHtml +
               '<span class="mta mta__train mta__train--logo mta__train--line-' +
-              key.toLowerCase().split("")[0] +
+              dKey.toLowerCase().split("")[0] +
               " mta__train--line-" +
-              this.isExpress(key) +
+              this.isExpress(dKey) +
               '"><span class="' +
-              this.isExpress(key) +
+              this.isExpress(dKey) +
               '">' +
-              key.toLowerCase().split("")[0] +
+              dKey.toLowerCase().split("")[0] +
               "</span></span>" +
-              first[key].dest +
+              trainHashMap.downTown[dKey].dest +
               '<span class="mta mta_train mta__train--time mta__train-time__' +
-              key.toLowerCase() +
+              dKey.toLowerCase() +
               '"> ' +
-              first[key].time
+              trainHashMap.downTown[dKey].time
                 .filter((value, index, self) => {
                   return self.indexOf(value) === index;
                 })
@@ -168,9 +168,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
                 .map(
                   (trainTime, i) =>
                     "<span data-walking-time='" +
-                    first[key].walkingTime +
+                    trainHashMap.downTown[dKey].walkingTime +
                     "' class='train-time__downTown-" +
-                    key.toLowerCase() +
+                    dKey.toLowerCase() +
                     "--" +
                     i +
                     "'> " +
@@ -178,56 +178,56 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
                     "min</span>"
                 ) +
               " </span>"; /*eslint-disable-line*/
-            listItem.className = 'mta__train--item mta__train--item-' + this.isExpress(key)
-            listItem.innerHTML = dHtml
+            downTownListItem.className = 'mta__train--item mta__train--item-' + this.isExpress(dKey)
+            downTownListItem.innerHTML = dHtml
 
-            list.appendChild(listItem)
+            list.appendChild(downTownListItem)
           }
-        });
+        })
 
 
 
-        // for (var uKey in second) {
-        //   var uHtml = ''
-        //   var upTownListItem = document.createElement('li')
+        for (var uKey in second) {
+          var uHtml = ''
+          var upTownListItem = document.createElement('li')
 
-        //   uHtml =
-        //     uHtml +
-        //     '<span class="mta mta__train mta__train--logo mta__train--line-' +
-        //     uKey.toLowerCase().split("")[0] +
-        //     " mta__train--line-" +
-        //     this.isExpress(uKey) +
-        //     '"><span class="' + this.isExpress(uKey) + '">' +
-        //     uKey.toLowerCase().split("")[0] +
-        //     "</span></span>" +
-        //     second[uKey].dest +
-        //     '<span class="mta mta_train mta__train--time mta_train-time__' +
-        //     uKey.toLowerCase() +
-        //     '"> ' +
-        //     second[uKey].time
-        //       .filter((value, index, self) => {
-        //         return self.indexOf(value) === index;
-        //       })
-        //       .slice(0, 3)
-        //       .map(
-        //         (trainTime, i) =>
-        //           "<span data-walking-time='" +
-        //           trainHashMap.upTown[uKey].walkingTime +
-        //           "' class='train-time__upTown-" +
-        //           uKey.toLowerCase() +
-        //           "--" +
-        //           i +
-        //           "'> " +
-        //           trainTime +
-        //           "min</span>"
-        //       ) +
-        //     " </span>"; /*eslint-disable-line*/
+          uHtml =
+            uHtml +
+            '<span class="mta mta__train mta__train--logo mta__train--line-' +
+            uKey.toLowerCase().split("")[0] +
+            " mta__train--line-" +
+            this.isExpress(uKey) +
+            '"><span class="' + this.isExpress(uKey) + '">' +
+            uKey.toLowerCase().split("")[0] +
+            "</span></span>" +
+            trainHashMap.upTown[uKey].dest +
+            '<span class="mta mta_train mta__train--time mta_train-time__' +
+            uKey.toLowerCase() +
+            '"> ' +
+            trainHashMap.upTown[uKey].time
+              .filter((value, index, self) => {
+                return self.indexOf(value) === index;
+              })
+              .slice(0, 3)
+              .map(
+                (trainTime, i) =>
+                  "<span data-walking-time='" +
+                  trainHashMap.upTown[uKey].walkingTime +
+                  "' class='train-time__upTown-" +
+                  uKey.toLowerCase() +
+                  "--" +
+                  i +
+                  "'> " +
+                  trainTime +
+                  "min</span>"
+              ) +
+            " </span>"; /*eslint-disable-line*/
 
-        //   upTownListItem.className = 'mta__train--item  mta__train--item-' + this.isExpress(uKey);
-        //   upTownListItem.innerHTML = uHtml
+          upTownListItem.className = 'mta__train--item  mta__train--item-' + this.isExpress(uKey);
+          upTownListItem.innerHTML = uHtml
 
-        //   list.appendChild(upTownListItem)
-        // }
+          list.appendChild(upTownListItem)
+        }
 
         wrapper.appendChild(list)
 
