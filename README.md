@@ -18,8 +18,6 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
     position: "top_bar",
     header: "Next Train",
     config: {
-      displayType: 'list',
-      mtaType: 'train',
       stations: [
         {
           stationId: 237,
@@ -27,14 +25,6 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
           dir: {
               upTown: false,
               downTown: true
-          }
-        },
-        {
-          stationId: 177,
-          walkingTime: 5,
-          dir: {
-            upTown: true,
-            downTown: false
           }
         }
       ],
@@ -50,11 +40,6 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
   * <span style="font-size: 12px; color: #999; font-weight: bold">_note: configurable, see MM documentation_</span>
 * `header` display name for what you want to call your module on screen
   * <span style="font-size: 12px; color: #999; font-weight: bold">_note: optional_</span>
-* `displayType` choose between scrolling marquee (default) or list
-  * `list` - shows next 3 trains for each line, both uptown and downtown
-    * <span style="font-size: 12px; color: #999; font-weight: bold">_note: works best on side_</span>
-  * `marquee` - shows next 6 trains, 3 for uptown and 3 for downtown
-    * <span style="font-size: 12px; color: #999; font-weight: bold">_note: works best on top_</span>
 * `stations` array to store each station config.
   * `stationId` find your [station(s)](#-station-list) id(s).
   * `walkingTime` allows you to pad the realtime data time, with travel time to the station.

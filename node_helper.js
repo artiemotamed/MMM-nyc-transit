@@ -11,7 +11,7 @@ var mtaStationIds = require('mta-subway-stations')
 
 module.exports = NodeHelper.create({
   start: function () {
-    console.log( this.name + ' helper method started...'); /*eslint-disable-line*/
+    console.log(this.name + ' helper method started...'); /*eslint-disable-line*/
   },
 
   getDepartures: function (config) {
@@ -22,7 +22,6 @@ module.exports = NodeHelper.create({
     var walkingTime = config.stations.map((obj) => obj.walkingTime)
     var dirUpTown = config.stations.map((obj) => obj.dir.upTown)
     var dirDownTown = config.stations.map((obj) => obj.dir.downTown)
-    var isList = config.displayType !== 'marquee'
 
     fs.readFile(
       `${__dirname}/node_modules/mta-subway-complexes/complexes.json`,
@@ -108,7 +107,7 @@ module.exports = NodeHelper.create({
                           walkingTime[n]
                         ),
                         destination:
-                          i.destinationStationId ==='281'
+                          i.destinationStationId === '281'
                             ? stationIds['606'].name
                             : stationIds[
                               i.destinationStationId].name,
@@ -120,7 +119,7 @@ module.exports = NodeHelper.create({
                   // Nothbound Departures
                   line.departures.N.forEach((i) => {
                     for (var key in mtaStationIds) {
-                      if (i.destinationStationId ===mtaStationIds[key]['Station ID']) {
+                      if (i.destinationStationId === mtaStationIds[key]['Station ID']) {
                         i.destinationStationId = mtaStationIds[key]['Complex ID']
                       }
                     }
@@ -133,7 +132,7 @@ module.exports = NodeHelper.create({
                           walkingTime[n]
                         ),
                         destination:
-                          i.destinationStationId ==='281'
+                          i.destinationStationId === '281'
                             ? stationIds['606'].name
                             : stationIds[i.destinationStationId].name,
                         walkingTime: walkingTime[n],
@@ -143,44 +142,24 @@ module.exports = NodeHelper.create({
                 })
               })
 
-              if (isList) {
-                self.sendSocketNotification('TRAIN_TABLE', {
-                  stations: stations,
-                  data: [
-                    { downTown: downTown.filter((train) => train.time > 0),},
-                    { upTown: upTown.filter((train) => train.time > 0),},
-                  ]
-                })
-              } else {
-                self.sendSocketNotification('TRAIN_TABLE', {
-                  stations: stations,
-                  data: [
-                    { downTown: downTown.filter((train) => train.time > 0).slice(0, 3),},
-                    { upTown: upTown.filter((train) => train.time > 0).slice(0, 3),},
-                  ]
-                })
-              }
+              self.sendSocketNotification('TRAIN_TABLE', {
+                stations: stations,
+                data: [
+                  { downTown: downTown.filter((train) => train.time > 0), },
+                  { upTown: upTown.filter((train) => train.time > 0), },
+                ]
+              })
             })
           })
         })
 
-        if (isList) {
-          self.sendSocketNotification('TRAIN_TABLE', {
-            stations: stations,
-            data: [
-              { downTown: downTown.filter((train) => train.time > 0),},
-              { upTown: upTown.filter((train) => train.time > 0) },
-            ]
-          })
-        } else {
-          self.sendSocketNotification('TRAIN_TABLE', {
-            stations: stations,
-            data: [
-              { downTown: downTown.filter((train) => train.time > 0).slice(0, 3),},
-              { upTown: upTown.filter((train) => train.time > 0).slice(0, 3),}
-            ]
-          })
-        }
+        self.sendSocketNotification('TRAIN_TABLE', {
+          stations: stations,
+          data: [
+            { downTown: downTown.filter((train) => train.time > 0), },
+            { upTown: upTown.filter((train) => train.time > 0) },
+          ]
+        })
       })
       .catch((err) => {
         throw new Error(err)

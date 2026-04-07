@@ -86,14 +86,12 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
     var observer = new MutationObserver(callback)
     var data = this.result // the data is not ready
     var wrapper = document.createElement('div')
-    var marquee = document.createElement('marquee')
     var list = document.createElement('ul')
     var isList = this.config.displayType !== 'marquee'
     var isUptownFirst = true
 
     wrapper.className = 'MMM-nyc-transit'
     list.className = 'mta__train--list'
-    marquee.className = 'mta__train--marquee'
 
     if (data) {
       var downTown = data[0].downTown
@@ -103,171 +101,77 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         return wrapper
       }
 
-      if (isList) {
-        var trainHashMap = {
-          downTown: [],
-          upTown: [],
+      var trainHashMap = {
+        downTown: [],
+        upTown: [],
+      }
+
+      downTown.forEach((train) => {
+        if (!trainHashMap.downTown[this.isSIR(train.routeId)]) {
+          trainHashMap.downTown[this.isSIR(train.routeId)] = {
+            time: [train.time],
+            dest: train.destination,
+            walkingTime: train.walkingTime,
+          }
+        } else {
+          trainHashMap.downTown[
+            this.isSIR(train.routeId)
+          ].time.push(train.time)
         }
+      })
 
-        downTown.forEach((train) => {
-          if (!trainHashMap.downTown[this.isSIR(train.routeId)]) {
-            trainHashMap.downTown[this.isSIR(train.routeId)] = {
-              time: [train.time],
-              dest: train.destination,
-              walkingTime: train.walkingTime,
-            }
-          } else {
-            trainHashMap.downTown[
-              this.isSIR(train.routeId)
-            ].time.push(train.time)
+      upTown.forEach((train) => {
+        if (!trainHashMap.upTown[this.isSIR(train.routeId)]) {
+          trainHashMap.upTown[this.isSIR(train.routeId)] = {
+            time: [train.time],
+            dest: train.destination,
+            walkingTime: train.walkingTime,
           }
-        })
+        } else {
+          trainHashMap.upTown[
+            this.isSIR(train.routeId)
+          ].time.push(train.time)
+        }
+      })
 
-        upTown.forEach((train) => {
-          if (!trainHashMap.upTown[this.isSIR(train.routeId)]) {
-            trainHashMap.upTown[this.isSIR(train.routeId)] = {
-              time: [train.time],
-              dest: train.destination,
-              walkingTime: train.walkingTime,
-            }
-          } else {
-            trainHashMap.upTown[
-              this.isSIR(train.routeId)
-            ].time.push(train.time)
-          }
-        })
+      var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
+      var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown
 
-        var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
-        var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown
+      var items = [first, second];
 
-        var items = [first, second];
 
-        
-        items.forEach((item) => {
-          for (var dKey in item) {
-            var listItem = document.createElement('li')
-            var html =
-              `<span class="mta mta__train mta__train--logo 
-              mta__train--line-${dKey.toLowerCase().split("")[0]} ">
-              ${dKey.toLowerCase().split("")[0]}</span>${item[dKey].dest}
+      items.forEach((item) => {
+        for (var key in item) {
+          var listItem = document.createElement('li')
+          var html =
+            `<span class="mta mta__train mta__train--logo 
+              mta__train--line-${key.toLowerCase().split("")[0]}">
+              ${key.toLowerCase().split("")[0]}</span>${item[key].dest}
               <span class="mta mta_train mta__train--time"> ` +
-              item[dKey].time
-                .filter((value, index, self) => {
-                  return self.indexOf(value) === index;
-                })
-                .slice(0, 3)
-                .map(
-                  (trainTime, i) =>
-                    `<span class='train-time'> 
+            item[key].time
+              .filter((value, index, self) => {
+                return self.indexOf(value) === index;
+              })
+              .slice(0, 3)
+              .map(
+                (trainTime, i) =>
+                  `<span class='train-time'> 
                     ${trainTime} min
                     </span>`
-                ) +
-              " </span>"; /*eslint-disable-line*/
-            listItem.className = 'mta__train--item mta__train--item-' + this.isExpress(dKey)
-            listItem.innerHTML = html
+              ) +
+            "</span>"; /*eslint-disable-line*/
+          listItem.className = 'mta__train--item mta__train--item-' + this.isExpress(key)
+          listItem.innerHTML = html
 
-            list.appendChild(listItem)
-          }
-        })
-
-        
-
-        wrapper.appendChild(list)
-
-        return wrapper
-      } else {
-        for (var upMarKey in upTown) {
-          if (
-            !Object.prototype.hasOwnProperty.call(upTown, upMarKey)
-          ) {
-            continue
-          }
-
-          var upMarHtml = ''
-          var upTownMarListItem = document.createElement('span')
-
-
-          upMarHtml = upMarHtml +
-            '<span class="mta mta__train mta__train--logo mta__train--line-' +
-            upTown[upMarKey].routeId.toLowerCase().split("")[0] +
-            ' mta__train--line-' + this.isExpress(upTown[upMarKey].routeId) + '">' +
-            '<span class="' + this.isExpress(upTown[upMarKey].routeId) + '">' +
-            upTown[upMarKey].routeId.toLowerCase().split("")[0] +
-            "</span></span>" +
-            '</span><span class=\'mta mta_train mta__train--time mta_train-time__\'' +
-            (parseFloat(upMarKey) + 4) +
-            '">' +
-            '<span class="mta mta_train mta__train--time mta__train-time__' +
-            upMarKey.toLowerCase() +
-            '"> ' +
-            '<span data-walking-time=\'' +
-            upTown[upMarKey].walkingTime +
-            '\' class=\'train-time__upTown-' +
-            upTown[upMarKey].routeId.toLowerCase() +
-            '--' +
-            upMarKey.toLowerCase() +
-            '\'> ' +
-            upTown[upMarKey].time +
-            'min</span>';
-
-          (" </span>"); /*eslint-disable-line*/
-
-          upTownMarListItem.className = 'mta__train--item'
-          upTownMarListItem.innerHTML = upMarHtml
-          marquee.appendChild(upTownMarListItem)
+          list.appendChild(listItem)
         }
+      })
 
-        for (var downMarKey in downTown) {
-          if (
-            !Object.prototype.hasOwnProperty.call(
-              downTown,
-              downMarKey
-            )
-          ) {
-            continue
-          }
-          var downMarHtml = ''
-          var downTownMarListItem = document.createElement('span')
 
-          downMarHtml =
-            downMarHtml +
-            '<span class="mta mta__train mta__train--logo mta__train--line-' +
-            downTown[downMarKey].routeId.toLowerCase().split("")[0] +
-            " mta__train--line-" +
-            this.isExpress(downTown[downMarKey].routeId) +
-            '">' +
-            '<span class="' +
-            this.isExpress(downTown[downMarKey].routeId) +
-            '">' +
-            downTown[downMarKey].routeId.toLowerCase().split("")[0] +
-            "</span></span>" +
-            "</span><span class='mta mta_train mta__train--time mta_train-time__'" +
-            (parseFloat(downMarKey) + 4) +
-            '">' +
-            '<span class="mta mta_train mta__train--time mta__train-time__' +
-            downMarKey.toLowerCase() +
-            '"> ' +
-            "<span data-walking-time='" +
-            downTown[downMarKey].walkingTime +
-            "' class='train-time__downTown-" +
-            downTown[downMarKey].routeId.toLowerCase() +
-            "--" +
-            downMarKey.toLowerCase() +
-            "'> " +
-            downTown[downMarKey].time +
-            "min</span>";
 
-          (" </span>"); /*eslint-disable-line*/
+      wrapper.appendChild(list)
 
-          downTownMarListItem.className = 'mta__train--item'
-          downTownMarListItem.innerHTML = downMarHtml
-          marquee.appendChild(downTownMarListItem)
-        }
-
-        wrapper.appendChild(marquee)
-
-        return wrapper
-      }
+      return wrapper
     }
     // observer mutation on targetNode with config obj
     observer.observe(targetNode, config)

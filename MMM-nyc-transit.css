@@ -55,7 +55,7 @@
   line-height: 29px;
   margin-right: 10px;
   display: inline-block;
-  margin-bottom: -5px;
+  margin-bottom: -16px;
 }
 
 .mta__train--time,
@@ -147,5 +147,5 @@
 }
 
 .MMM-nyc-transit   .mta__train--list {
-        font-size:   90px;
+        font-size:   80px;
 }
