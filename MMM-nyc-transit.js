@@ -143,8 +143,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
       items.forEach((item) => {
         for (var key in item) {
           var listItem = document.createElement('li')
-          var html =
-            `<span class="mta mta__train mta__train--logo 
+          listItem.className = `mta__train--item mta__train--item-${this.isExpress(key)}`
+          listItem.innerHTML = 
+          `<span class="mta mta__train mta__train--logo 
               mta__train--line-${key.toLowerCase().split("")[0]}">
               ${key.toLowerCase().split("")[0]}</span>${item[key].dest}
               <span class="mta mta_train mta__train--time"> ` +
@@ -154,20 +155,16 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               })
               .slice(0, 3)
               .map(
-                (trainTime, i) =>
+                (trainTime, _) =>
                   `<span class='train-time'> 
                     ${trainTime} min
                     </span>`
               ) +
             "</span>"; /*eslint-disable-line*/
-          listItem.className = 'mta__train--item mta__train--item-' + this.isExpress(key)
-          listItem.innerHTML = html
 
           list.appendChild(listItem)
         }
       })
-
-
 
       wrapper.appendChild(list)
 
