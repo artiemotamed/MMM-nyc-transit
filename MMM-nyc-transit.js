@@ -8,10 +8,9 @@
 Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
   // Default module config.
   defaults: {
-    displayType: 'marquee',
     header: 'Next Train',
     module: 'MMM-nyc-transit',
-    mtaType: 'train',
+    isUptownFirst: true,
     position: 'top_bar',
     stations: [
       {
@@ -87,13 +86,13 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
     var data = this.result // the data is not ready
     var wrapper = document.createElement('div')
     var list = document.createElement('ul')
-    var isList = this.config.displayType !== 'marquee'
-    var isUptownFirst = true
+    var isUptownFirst = this.config.isUptownFirst
 
     wrapper.className = 'MMM-nyc-transit'
     list.className = 'mta__train--list'
 
     if (data) {
+      //Console.log(result)
       var downTown = data[0].downTown
       var upTown = data[1].upTown
 
@@ -144,11 +143,13 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         for (var key in item) {
           var listItem = document.createElement('li')
           listItem.className = `mta__train--item mta__train--item-${this.isExpress(key)}`
-          listItem.innerHTML = 
-          `<span class="mta mta__train mta__train--logo 
-              mta__train--line-${key.toLowerCase().split("")[0]}">
-              ${key.toLowerCase().split("")[0]}</span>${item[key].dest}
-              <span class="mta mta_train mta__train--time"> ` +
+          listItem.innerHTML =
+            `<span class="mta mta__train mta__train--logo 
+                mta__train--line-${key.toLowerCase().split("")[0]}">
+                ${key.toLowerCase().split("")[0]}
+                </span>
+                  ${item[key].dest}
+                <span class="mta mta_train mta__train--time"> ` +
             item[key].time
               .filter((value, index, self) => {
                 return self.indexOf(value) === index;
@@ -157,14 +158,21 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               .map(
                 (trainTime, _) =>
                   `<span class='train-time'> 
-                    ${trainTime} min
-                    </span>`
+                      ${trainTime} min
+                      </span>`
               ) +
             "</span>"; /*eslint-disable-line*/
 
           list.appendChild(listItem)
         }
       })
+
+      if (items.flat().length == 0) {
+        var span = document.createElement('span')
+        span.className = 'train-time'
+        span.innerHTML = "train times are unavailable"
+        list.appendChild(span)
+      }
 
       wrapper.appendChild(list)
 
