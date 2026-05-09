@@ -4,34 +4,38 @@
  * By Elan Trybuch https://github.com/elaniobro
  * MIT Licensed.
  */
+const Log = require('logger')
 var NodeHelper = require('node_helper')
 var { createClient } = require('mta-realtime-subway-departures')
-var fs = require('fs-extra')
+var fs = require('node:fs')
 var mtaStationIds = require('mta-subway-stations')
 
 module.exports = NodeHelper.create({
   start: function () {
+    Log.log( this.name + ' helper method started...')
   },
 
-  getDepartures: function (config) {
-    var client = createClient()
+  getDepartures: async function (config) {
+    var apiKey = config.apiKey
+    var client = createClient(apiKey)
     var self = this
     var stations = config.stations.map((obj) => obj.stationId)
     var stationIds = {}
     var walkingTime = config.stations.map((obj) => obj.walkingTime)
     var dirUpTown = config.stations.map((obj) => obj.dir.upTown)
     var dirDownTown = config.stations.map((obj) => obj.dir.downTown)
+    var isList = config.displayType !== 'marquee'
 
-    fs.readFile(
-      `${__dirname}/node_modules/mta-subway-complexes/complexes.json`,
-      'utf8'
-    )
-      .then((data) => {
-        stationIds = JSON.parse(data)
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
+    try {
+      const data = await fs.promises.readFile(
+        `${__dirname}/node_modules/mta-subway-complexes/complexes.json`,
+        'utf8'
+      )
+
+      stationIds = JSON.parse(data)
+    } catch (err) {
+      Log.error(err)
+    }
 
     client
       .departures(stations)
@@ -106,7 +110,7 @@ module.exports = NodeHelper.create({
                           walkingTime[n]
                         ),
                         destination:
-                          i.destinationStationId === '281'
+                          i.destinationStationId ==='281'
                             ? stationIds['606'].name
                             : stationIds[
                               i.destinationStationId].name,
@@ -118,7 +122,7 @@ module.exports = NodeHelper.create({
                   // Nothbound Departures
                   line.departures.N.forEach((i) => {
                     for (var key in mtaStationIds) {
-                      if (i.destinationStationId === mtaStationIds[key]['Station ID']) {
+                      if (i.destinationStationId ===mtaStationIds[key]['Station ID']) {
                         i.destinationStationId = mtaStationIds[key]['Complex ID']
                       }
                     }
@@ -131,7 +135,7 @@ module.exports = NodeHelper.create({
                           walkingTime[n]
                         ),
                         destination:
-                          i.destinationStationId === '281'
+                          i.destinationStationId ==='281'
                             ? stationIds['606'].name
                             : stationIds[i.destinationStationId].name,
                         walkingTime: walkingTime[n],
@@ -141,27 +145,47 @@ module.exports = NodeHelper.create({
                 })
               })
 
-              self.sendSocketNotification('TRAIN_TABLE', {
-                stations: stations,
-                data: [
-                  { downTown: downTown.filter((train) => train.time > 0), },
-                  { upTown: upTown.filter((train) => train.time > 0), },
-                ]
-              })
+              if (isList) {
+                self.sendSocketNotification('TRAIN_TABLE', {
+                  stations: stations,
+                  data: [
+                    { downTown: downTown.filter((train) => train.time > 0),},
+                    { upTown: upTown.filter((train) => train.time > 0),},
+                  ]
+                })
+              } else {
+                self.sendSocketNotification('TRAIN_TABLE', {
+                  stations: stations,
+                  data: [
+                    { downTown: downTown.filter((train) => train.time > 0).slice(0, 3),},
+                    { upTown: upTown.filter((train) => train.time > 0).slice(0, 3),},
+                  ]
+                })
+              }
             })
           })
         })
 
-        self.sendSocketNotification('TRAIN_TABLE', {
-          stations: stations,
-          data: [
-            { downTown: downTown.filter((train) => train.time > 0), },
-            { upTown: upTown.filter((train) => train.time > 0) },
-          ]
-        })
+        if (isList) {
+          self.sendSocketNotification('TRAIN_TABLE', {
+            stations: stations,
+            data: [
+              { downTown: downTown.filter((train) => train.time > 0),},
+              { upTown: upTown.filter((train) => train.time > 0) },
+            ]
+          })
+        } else {
+          self.sendSocketNotification('TRAIN_TABLE', {
+            stations: stations,
+            data: [
+              { downTown: downTown.filter((train) => train.time > 0).slice(0, 3),},
+              { upTown: upTown.filter((train) => train.time > 0).slice(0, 3),}
+            ]
+          })
+        }
       })
       .catch((err) => {
-        throw new Error(err)
+        Log.error(err)
       })
   },
 
