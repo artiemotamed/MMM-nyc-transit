@@ -1,7 +1,7 @@
 # MTA transit module for MagicMirror²
 
 ## 🛡 Badges
-This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.com/Elaniobro/MMM-nyc-transit) to work on the 13.3inch CM4 Magic Mirror
+This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.com/Elaniobro/MMM-nyc-transit) to work on the [13.3inch CM4 Magic Mirror](https://www.waveshare.com/13.3inch-magic-mirror-c4.htm)
 <!-- ![](./mmm-nyc-transit.gif) -->
 
 ![](https://user-images.githubusercontent.com/710847/80649891-dab42300-8a40-11ea-96ac-f76926f1b109.png)
