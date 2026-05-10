@@ -6,6 +6,8 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
 
 ![](https://user-images.githubusercontent.com/710847/80649891-dab42300-8a40-11ea-96ac-f76926f1b109.png)
 
+![](https://github.com/artiemotamed/MMM-nyc-transit/blob/master/screenshot.jpg)
+
 ## ℹ️ How to use this module
 
 1. clone this repo into your moducles directory with the following command: `git clone https://github.com/artiemotamed/MMM-nyc-transit`
@@ -15,7 +17,7 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
 ```javascript
   {
     module: 'MMM-nyc-transit',
-    position: "top_bar",
+    position: "middle_center",
     header: "Next Train",
     config: {
       stations: [
