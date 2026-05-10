@@ -11,7 +11,6 @@ var mtaStationIds = require('mta-subway-stations')
 
 module.exports = NodeHelper.create({
   start: function () {
-    console.log(this.name + ' helper method started...'); /*eslint-disable-line*/
   },
 
   getDepartures: function (config) {

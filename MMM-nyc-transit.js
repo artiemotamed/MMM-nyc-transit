@@ -167,7 +167,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         }
       })
 
-      if (items.flat().length == 0) {
+      if (items.length == 0) {
         var span = document.createElement('span')
         span.className = 'train-time'
         span.innerHTML = "train times are unavailable"
