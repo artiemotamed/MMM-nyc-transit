@@ -12,12 +12,11 @@ var mtaStationIds = require('mta-subway-stations')
 
 module.exports = NodeHelper.create({
   start: function () {
-    Log.log( this.name + ' helper method started...')
+    Log.log(this.name + ' helper method started...')
   },
 
   getDepartures: async function (config) {
-    var apiKey = config.apiKey
-    var client = createClient(apiKey)
+    var client = createClient()
     var self = this
     var stations = config.stations.map((obj) => obj.stationId)
     var stationIds = {}
@@ -65,9 +64,7 @@ module.exports = NodeHelper.create({
                   routeId: i.routeId,
                   time: this.getDate(i.time, walkingTime[n]),
                   destination:
-                    i.destinationStationId === '281'
-                      ? stationIds['606'].name
-                      : stationIds[i.destinationStationId].name,
+                    stationIds[i.destinationStationId].name,
                   walkingTime: walkingTime[n],
                 })
               }
@@ -86,9 +83,7 @@ module.exports = NodeHelper.create({
                   routeId: i.routeId,
                   time: this.getDate(i.time, walkingTime[n]),
                   destination:
-                    i.destinationStationId === '281'
-                      ? stationIds['606'].name
-                      : stationIds[i.destinationStationId].name,
+                    stationIds[i.destinationStationId].name,
                   walkingTime: walkingTime[n],
                 })
               }
@@ -110,10 +105,8 @@ module.exports = NodeHelper.create({
                           walkingTime[n]
                         ),
                         destination:
-                          i.destinationStationId ==='281'
-                            ? stationIds['606'].name
-                            : stationIds[
-                              i.destinationStationId].name,
+                          stationIds[
+                            i.destinationStationId].name,
                         walkingTime: walkingTime[n],
                       })
                     }
@@ -122,7 +115,7 @@ module.exports = NodeHelper.create({
                   // Nothbound Departures
                   line.departures.N.forEach((i) => {
                     for (var key in mtaStationIds) {
-                      if (i.destinationStationId ===mtaStationIds[key]['Station ID']) {
+                      if (i.destinationStationId === mtaStationIds[key]['Station ID']) {
                         i.destinationStationId = mtaStationIds[key]['Complex ID']
                       }
                     }
@@ -135,9 +128,7 @@ module.exports = NodeHelper.create({
                           walkingTime[n]
                         ),
                         destination:
-                          i.destinationStationId ==='281'
-                            ? stationIds['606'].name
-                            : stationIds[i.destinationStationId].name,
+                          stationIds[i.destinationStationId].name,
                         walkingTime: walkingTime[n],
                       })
                     }
@@ -149,16 +140,16 @@ module.exports = NodeHelper.create({
                 self.sendSocketNotification('TRAIN_TABLE', {
                   stations: stations,
                   data: [
-                    { downTown: downTown.filter((train) => train.time > 0),},
-                    { upTown: upTown.filter((train) => train.time > 0),},
+                    { downTown: downTown.filter((train) => train.time > 0), },
+                    { upTown: upTown.filter((train) => train.time > 0), },
                   ]
                 })
               } else {
                 self.sendSocketNotification('TRAIN_TABLE', {
                   stations: stations,
                   data: [
-                    { downTown: downTown.filter((train) => train.time > 0).slice(0, 3),},
-                    { upTown: upTown.filter((train) => train.time > 0).slice(0, 3),},
+                    { downTown: downTown.filter((train) => train.time > 0).slice(0, 3), },
+                    { upTown: upTown.filter((train) => train.time > 0).slice(0, 3), },
                   ]
                 })
               }
@@ -170,7 +161,7 @@ module.exports = NodeHelper.create({
           self.sendSocketNotification('TRAIN_TABLE', {
             stations: stations,
             data: [
-              { downTown: downTown.filter((train) => train.time > 0),},
+              { downTown: downTown.filter((train) => train.time > 0), },
               { upTown: upTown.filter((train) => train.time > 0) },
             ]
           })
@@ -178,8 +169,8 @@ module.exports = NodeHelper.create({
           self.sendSocketNotification('TRAIN_TABLE', {
             stations: stations,
             data: [
-              { downTown: downTown.filter((train) => train.time > 0).slice(0, 3),},
-              { upTown: upTown.filter((train) => train.time > 0).slice(0, 3),}
+              { downTown: downTown.filter((train) => train.time > 0).slice(0, 3), },
+              { upTown: upTown.filter((train) => train.time > 0).slice(0, 3), }
             ]
           })
         }
