@@ -92,7 +92,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
     list.className = 'mta__train--list'
 
     if (data) {
-      //console.log(data)
+      ///console.log(data)
       var downTown = data[0].downTown
       var upTown = data[1].upTown
 
@@ -105,35 +105,27 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         upTown: [],
       }
 
-      downTown.forEach((train) => {
-        if (!trainHashMap.downTown[this.isSIR(train.routeId)]) {
-          trainHashMap.downTown[this.isSIR(train.routeId)] = {
-            time: [train.time],
-            dest: train.destination,
-            routeId: train.routeId,
-            walkingTime: train.walkingTime,
-          }
-        } else {
-          trainHashMap.downTown[
-            this.isSIR(train.routeId)
-          ].time.push(train.time)
+      var routeIds = downTown.map((train) => train.routeId);
+      routeIds.forEach((routeId) => {
+        trainHashMap.downTown[routeId] = {
+          time: downTown.flatMap((train) => train.routeId === routeId ? train.time : null),
+          dest: downTown.find((train) => train.routeId === routeId)?.destination,
+          routeId: routeId,
+          walkingTime: downTown.find((train) => train.routeId === routeId)?.walkingTime,
         }
-      })
+      });
 
-      upTown.forEach((train) => {
-        if (!trainHashMap.upTown[this.isSIR(train.routeId)]) {
-          trainHashMap.upTown[this.isSIR(train.routeId)] = {
-            time: [train.time],
-            dest: train.destination,
-            routeId: train.routeId,
-            walkingTime: train.walkingTime,
-          }
-        } else {
-          trainHashMap.upTown[
-            this.isSIR(train.routeId)
-          ].time.push(train.time)
+
+      var routeIds = upTown.map((train) => train.routeId);
+      routeIds.forEach((routeId) => {
+        trainHashMap.upTown[routeId] = {
+          time: upTown.flatMap((train) => train.routeId === routeId ? train.time : null),
+          dest: upTown.find((train) => train.routeId === routeId)?.destination,
+          routeId: routeId,
+          walkingTime: upTown.find((train) => train.routeId === routeId)?.walkingTime,
         }
-      })
+      });
+
 
       var items = isUptownFirst ? [trainHashMap.upTown, trainHashMap.downTown] :
         [trainHashMap.downTown, trainHashMap.upTown];
@@ -188,9 +180,6 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
   },
   isExpress: function (id) {
     return id.split('').length === 2 ? 'express' : ''
-  },
-  isSIR: function (id) {
-    return id === 'SI' ? 'SIR' : id === 'SS' ? 'SIR' : id
   },
 
   getDepartures: function () {
