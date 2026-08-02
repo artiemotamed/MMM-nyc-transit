@@ -105,10 +105,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         upTown: [],
       }
 
-      var routeIds = downTown.map((train) => train.routeId);
-      routeIds.forEach((routeId) => {
+      downTown.map((train) => train.routeId).forEach((routeId) => {
         trainHashMap.downTown[routeId] = {
-          time: downTown.flatMap((train) => train.routeId === routeId ? train.time : null),
+          time: downTown.flatMap((train) => train.routeId === routeId ? train.time : []),
           dest: downTown.find((train) => train.routeId === routeId)?.destination,
           routeId: routeId,
           walkingTime: downTown.find((train) => train.routeId === routeId)?.walkingTime,
@@ -116,10 +115,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
       });
 
 
-      var routeIds = upTown.map((train) => train.routeId);
-      routeIds.forEach((routeId) => {
+      upTown.map((train) => train.routeId).forEach((routeId) => {
         trainHashMap.upTown[routeId] = {
-          time: upTown.flatMap((train) => train.routeId === routeId ? train.time : null),
+          time: upTown.flatMap((train) => train.routeId === routeId ? train.time : []),
           dest: upTown.find((train) => train.routeId === routeId)?.destination,
           routeId: routeId,
           walkingTime: upTown.find((train) => train.routeId === routeId)?.walkingTime,
