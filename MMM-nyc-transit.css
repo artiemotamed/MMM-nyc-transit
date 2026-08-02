@@ -10,8 +10,17 @@
   animation: marquee 50s linear infinite;
 }
 
-.mta__train {
+.mta_train_white {
+  color: white;
+}
+
+.mta_train_black {
   color: black;
+}
+
+
+
+.mta__train {
   height: 90px;
   width: 90px;
   border-radius: 50%;
@@ -146,6 +155,6 @@
   width: 35px;
 }
 
-.MMM-nyc-transit   .mta__train--list {
-        font-size:   80px;
+.MMM-nyc-transit .mta__train--list {
+  font-size: 80px;
 }

@@ -110,6 +110,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           trainHashMap.downTown[this.isSIR(train.routeId)] = {
             time: [train.time],
             dest: train.destination,
+            routeId: train.routeId,
             walkingTime: train.walkingTime,
           }
         } else {
@@ -124,6 +125,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
           trainHashMap.upTown[this.isSIR(train.routeId)] = {
             time: [train.time],
             dest: train.destination,
+            routeId: train.routeId,
             walkingTime: train.walkingTime,
           }
         } else {
@@ -133,18 +135,20 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         }
       })
 
-      var first = isUptownFirst ? trainHashMap.upTown : trainHashMap.downTown
-      var second = isUptownFirst ? trainHashMap.downTown : trainHashMap.upTown
-
-      var items = [first, second];
+      var items = isUptownFirst ? [trainHashMap.upTown, trainHashMap.downTown] :
+        [trainHashMap.downTown, trainHashMap.upTown];
 
 
       items.forEach((item) => {
+        console.log('here: ', items)
         for (var key in item) {
           var listItem = document.createElement('li')
+          var trainColorClass = ['N', 'Q', 'R', 'W'].includes(item[key].routeId) ?
+            'mta_train_black' : 'mta_train_white';
+
           listItem.className = `mta__train--item mta__train--item-${this.isExpress(key)}`
           listItem.innerHTML =
-            `<span class="mta mta__train mta__train--logo 
+            `<span class="mta ${trainColorClass} mta__train mta__train--logo 
                 mta__train--line-${key.toLowerCase().split("")[0]}">
                 ${key.toLowerCase().split("")[0]}
                 </span>
