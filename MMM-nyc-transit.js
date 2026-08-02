@@ -92,7 +92,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
     list.className = 'mta__train--list'
 
     if (data) {
-      //Console.log(result)
+      //console.log(data)
       var downTown = data[0].downTown
       var upTown = data[1].upTown
 
@@ -140,7 +140,6 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
 
 
       items.forEach((item) => {
-        console.log('here: ', items)
         for (var key in item) {
           var listItem = document.createElement('li')
           var trainColorClass = ['N', 'Q', 'R', 'W'].includes(item[key].routeId) ?

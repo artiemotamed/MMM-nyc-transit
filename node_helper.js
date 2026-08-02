@@ -23,7 +23,6 @@ module.exports = NodeHelper.create({
     var walkingTime = config.stations.map((obj) => obj.walkingTime)
     var dirUpTown = config.stations.map((obj) => obj.dir.upTown)
     var dirDownTown = config.stations.map((obj) => obj.dir.downTown)
-    var isList = config.displayType !== 'marquee'
 
     try {
       const data = await fs.promises.readFile(
@@ -136,44 +135,25 @@ module.exports = NodeHelper.create({
                 })
               })
 
-              if (isList) {
-                self.sendSocketNotification('TRAIN_TABLE', {
-                  stations: stations,
-                  data: [
-                    { downTown: downTown.filter((train) => train.time > 0), },
-                    { upTown: upTown.filter((train) => train.time > 0), },
-                  ]
-                })
-              } else {
-                self.sendSocketNotification('TRAIN_TABLE', {
-                  stations: stations,
-                  data: [
-                    { downTown: downTown.filter((train) => train.time > 0).slice(0, 3), },
-                    { upTown: upTown.filter((train) => train.time > 0).slice(0, 3), },
-                  ]
-                })
-              }
+              self.sendSocketNotification('TRAIN_TABLE', {
+                stations: stations,
+                data: [
+                  { downTown: downTown.filter((train) => train.time > 0), },
+                  { upTown: upTown.filter((train) => train.time > 0), },
+                ]
+              })
             })
           })
         })
 
-        if (isList) {
-          self.sendSocketNotification('TRAIN_TABLE', {
-            stations: stations,
-            data: [
-              { downTown: downTown.filter((train) => train.time > 0), },
-              { upTown: upTown.filter((train) => train.time > 0) },
-            ]
-          })
-        } else {
-          self.sendSocketNotification('TRAIN_TABLE', {
-            stations: stations,
-            data: [
-              { downTown: downTown.filter((train) => train.time > 0).slice(0, 3), },
-              { upTown: upTown.filter((train) => train.time > 0).slice(0, 3), }
-            ]
-          })
-        }
+        self.sendSocketNotification('TRAIN_TABLE', {
+          stations: stations,
+          data: [
+            { downTown: downTown.filter((train) => train.time > 0), },
+            { upTown: upTown.filter((train) => train.time > 0) },
+          ]
+        })
+
       })
       .catch((err) => {
         Log.error(err)
