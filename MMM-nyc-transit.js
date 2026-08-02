@@ -100,39 +100,35 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
         return wrapper
       }
 
-      var trainHashMap = {
-        downTown: [],
-        upTown: [],
-      }
+      var downtown = new Map(
+        downTown
+          .map((train) => train.routeId)
+          .map((routeId) => [routeId, {
+            time: downTown.flatMap((train) => train.routeId === routeId && train.time !== null && train.time !== undefined ? [train.time] : []),
+            dest: downTown.find((train) => train.routeId === routeId)?.destination,
+            routeId: routeId,
+            walkingTime: downTown.find((train) => train.routeId === routeId)?.walkingTime,
+          }])
+      )
 
-      downTown.map((train) => train.routeId).forEach((routeId) => {
-        trainHashMap.downTown[routeId] = {
-          time: downTown.flatMap((train) => train.routeId === routeId ? train.time : []),
-          dest: downTown.find((train) => train.routeId === routeId)?.destination,
-          routeId: routeId,
-          walkingTime: downTown.find((train) => train.routeId === routeId)?.walkingTime,
-        }
-      });
+      var uptown = new Map(
+        upTown
+          .map((train) => train.routeId)
+          .map((routeId) => [routeId, {
+            time: upTown.flatMap((train) => train.routeId === routeId && train.time !== null && train.time !== undefined ? [train.time] : []),
+            dest: upTown.find((train) => train.routeId === routeId)?.destination,
+            routeId: routeId,
+            walkingTime: upTown.find((train) => train.routeId === routeId)?.walkingTime,
+          }])
+      )
 
-
-      upTown.map((train) => train.routeId).forEach((routeId) => {
-        trainHashMap.upTown[routeId] = {
-          time: upTown.flatMap((train) => train.routeId === routeId ? train.time : []),
-          dest: upTown.find((train) => train.routeId === routeId)?.destination,
-          routeId: routeId,
-          walkingTime: upTown.find((train) => train.routeId === routeId)?.walkingTime,
-        }
-      });
-
-
-      var items = isUptownFirst ? [trainHashMap.upTown, trainHashMap.downTown] :
-        [trainHashMap.downTown, trainHashMap.upTown];
-
+      var items = isUptownFirst ? [uptown, downtown] :
+        [downtown, uptown];
 
       items.forEach((item) => {
-        for (var key in item) {
+        item.forEach((entry, key) => {
           var listItem = document.createElement('li')
-          var trainColorClass = ['N', 'Q', 'R', 'W'].includes(item[key].routeId) ?
+          var trainColorClass = ['N', 'Q', 'R', 'W'].includes(entry.routeId) ?
             'mta_train_black' : 'mta_train_white';
 
           listItem.className = `mta__train--item mta__train--item-${this.isExpress(key)}`
@@ -141,9 +137,9 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
                 mta__train--line-${key.toLowerCase().split("")[0]}">
                 ${key.toLowerCase().split("")[0]}
                 </span>
-                  ${item[key].dest}
+                  ${entry.dest}
                 <span class="mta mta_train mta__train--time"> ` +
-            item[key].time
+            entry.time
               .filter((value, index, self) => {
                 return self.indexOf(value) === index;
               })
@@ -157,7 +153,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
             "</span>"; /*eslint-disable-line*/
 
           list.appendChild(listItem)
-        }
+        })
       })
 
       if (items.length == 0) {
