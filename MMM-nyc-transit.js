@@ -34,7 +34,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
   },
 
   getStyles: function () {
-    return ['MMM-nyc-transit.css']
+    return ['node_modules/animate.css/animate.min.css', 'MMM-nyc-transit.css']
   },
 
   start: function () {

@@ -118,3 +118,7 @@
 .MMM-nyc-transit .mta__train--list {
   font-size: 80px;
 }
+
+.MMM-nyc-transit .mta__train--item {
+  animation: fadeIn 2s ease both;
+}
