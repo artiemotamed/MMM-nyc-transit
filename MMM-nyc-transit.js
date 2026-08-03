@@ -97,6 +97,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
       var upTown = data[1].upTown
 
       if (Object.keys(data).length === 0 && data.constructor === Object) {
+        this.setTrainTimesUnavailable(wrapper, list)
         return wrapper
       }
 
@@ -128,17 +129,14 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
       items.forEach((item) => {
         item.forEach((entry, key) => {
           var listItem = document.createElement('li')
-          var trainColorClass = ['N', 'Q', 'R', 'W'].includes(entry.routeId) ?
-            'mta_train_black' : 'mta_train_white';
-
           listItem.className = `mta__train--item mta__train--item-${this.isExpress(key)}`
           listItem.innerHTML =
-            `<span class="mta ${trainColorClass} mta__train mta__train--logo 
+            `<span class="mta ${this.getTrainFontColor(entry.routeId)} mta__train mta__train--logo 
                 mta__train--line-${key.toLowerCase().split("")[0]}">
                 ${key.toLowerCase().split("")[0]}
                 </span>
                   ${entry.dest}
-                <span class="mta mta_train mta__train--time"> ` +
+                <span class="mta mta_train mta__train--time train-time">` +
             entry.time
               .filter((value, index, self) => {
                 return self.indexOf(value) === index;
@@ -146,9 +144,7 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
               .slice(0, 3)
               .map(
                 (trainTime, _) =>
-                  `<span class='train-time'> 
-                      ${trainTime} min
-                      </span>`
+                  `&nbsp;${trainTime} min`
               ) +
             "</span>"; /*eslint-disable-line*/
 
@@ -157,13 +153,10 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
       })
 
       if (items.length == 0) {
-        var span = document.createElement('span')
-        span.className = 'train-time'
-        span.innerHTML = "train times are unavailable"
-        list.appendChild(span)
+        this.setTrainTimesUnavailable(wrapper, list)
+      } else {
+        wrapper.appendChild(list)
       }
-
-      wrapper.appendChild(list)
 
       return wrapper
     }
@@ -172,6 +165,18 @@ Module.register('MMM-nyc-transit', { /*eslint-disable-line*/
 
     return wrapper
   },
+  getTrainFontColor: function (routeId) {
+    return ['N', 'Q', 'R', 'W'].includes(routeId) ?
+      'mta_train_black' : 'mta_train_white'
+  },
+  setTrainTimesUnavailable: function (wrapper, list) {
+    var span = document.createElement('span')
+    span.className = 'train-time'
+    span.innerHTML = "train times are unavailable"
+    list.appendChild(span)
+    wrapper.appendChild(list)
+  },
+
   isExpress: function (id) {
     return id.split('').length === 2 ? 'express' : ''
   },

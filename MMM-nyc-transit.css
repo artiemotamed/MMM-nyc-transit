@@ -45,21 +45,6 @@
   text-align: left;
 }
 
-.mta__train--item-express {
-  margin: 3px 0;
-}
-
-.mta__train--marquee .mta__train--list {
-  list-style: none;
-}
-
-.mta__train--marquee .mta__train--item {
-  align-items: center;
-  margin: 0 10px;
-  padding-left: 10px;
-  display: inline;
-}
-
 .mta__train--logo {
   line-height: 29px;
   margin-right: 10px;
@@ -125,35 +110,10 @@
   background: #00933c;
 }
 
-.mta__train--line-express {
-  transform: rotate(45deg);
-  height: 20px;
-  width: 20px;
-  border-radius: 0;
-  margin: 0 17px 0 4px;
-  padding: 0 1px;
-}
-
-.mta__train--line-express .express {
-  transform: rotate(-45deg);
-  display: table-cell;
-  vertical-align: middle;
-  height: 20px;
-  width: 20px;
-  line-height: 0;
-  font-size: 90px;
-}
-
 .mta__train--line-7 {
   background: #b933ad;
 }
 
-.mta__train--line-sir {
-  background-color: #002856;
-  font-size: 15px;
-  height: 35px;
-  width: 35px;
-}
 
 .MMM-nyc-transit .mta__train--list {
   font-size: 80px;
