@@ -7,7 +7,20 @@ This is a fork of [https://github.com/Elaniobro/MMM-nyc-transit](https://github.
 
 ![](https://github.com/artiemotamed/MMM-nyc-transit/blob/master/screenshot.jpg)
 
+## Installation
+
+After starting your Rasberry Pi and installing Magic Mirror, first disable wifi power save (the source of disconnect issues) by
+
+creating the file /etc/NetworkManager/conf.d/powersave.conf with contents:
+
+```
+[connection]
+wifi.powersave = 2
+```
+
 ## ℹ️ How to use this module
+
+
 
 1. clone this repo into your moducles directory with the following command: `git clone https://github.com/artiemotamed/MMM-nyc-transit`
 2. install all the npm modules with either `yarn install` or `npm install`
